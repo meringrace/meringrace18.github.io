@@ -1,0 +1,113 @@
+---
+title: "Project 1"
+---
+
+```{r, echo=FALSE,out.width="25%",fig.align='center'}
+
+knitr::opts_chunk$set(cache=TRUE, error=FALSE, message=FALSE, warning=FALSE)
+
+```
+
+
+### Data Visualization with ggplot in R
+
+
+ Graphical representation of data can provide an effortless way to comprehend complex datasets, identify trends, and aid in data driven decision-making. Data visualization with ggplot2 from Rstudio is one of the most elegant and versatile methods in R. In this blog post, I'll be introducing a few types of graphs that can be plotted using ggplot.
+ 
+ Let's start with installing the required packages. ggplot2 is one of the members of the tidyverse package. we can install this package by running the code below. Note: If you have tidyverse installed already, you only have to load the package. Remove the hashtag before the install.package line below to install the package.
+ 
+```{r}
+# install.packages("tidyverse") #installing tidyverse
+library(tidyverse)   #loading the package
+library(ggplot2)     # loading ggplot
+library(survival)  #loading package for dataset
+```
+  
+  You will notice that I've loaded survival package as well. This package is for loading the dataset that I'm going to be using for producing my graphs below. You can use your own data set by reading your raw data from your system. Little insight about the data: The survival package contains a dataset named PBC, which is data collected from the Mayo Clinic trial in primary biliary cirrhosis of the liver conducted betwwen 1974 and 1984.
+  In figure 1 , I'll be generating a histogram of cholestrol levels of the patients in my dataset. In the first line, we use ggplot and enter the name of the dataset that we are interested in plotting. aes() is used for aesthetic mapping. We can specify our x and y axis of our graphs in here. The second line specifies the type of graph we are interested in plotting. geom_histogram() will produce a histogram plot. Let's see the data! 
+
+```{r}
+
+ggplot(data=pbc,aes(x=chol))+
+  geom_histogram()  #creates a histogram
+```
+
+##### Figure 1
+
+
+
+As you can see, the graph is not aesthetically appealing. we cannot interpret the data completely by looking at this plot other than the fact that the data is skewed to the right. Let's modify this plot for better insight of the data.
+
+```{r}
+ggplot(data=pbc,aes(x=chol, fill=sex))+
+  geom_histogram(position="stack",alpha=0.7,bins=35)+ #creates a histogram
+  labs(title="Histogram of cholesterol levels",x="cholesterol value mg/dl")+ #create axis labels
+  theme_minimal()+
+  theme(plot.title = element_text(face="bold",size="14",hjust=0.5))+ #Bold and center the title
+  theme(axis.title.x=element_text(face="bold.italic"))+
+  theme(axis.title.y=element_text(face="bold.italic"))
+  
+```
+
+##### Figure 2
+
+
+
+You'll see that now the histogram shows the cholestrol data based on sex. Sex was another variable in my dataset. I used that for my fill argument. This will create my histogram that is color coordinated based on sex. Position argument is for position adjustment. alpha controls the transparency of the two colored bars. Notice that I've also changed the axis and title appropriately using labs function.  You can also change the apprearance such as the position and the font size of your label and axis using theme() and related arguments. In this plot I used theme_minimal() to change the theme of my plot. You can also use other themes such as theme_bw(), or theme_classic() to custmoize based on your preference. You can also use ggtitle() instead of labs() to add a main title to the plot. If you'd like to see the histograms of cholesterol data based on the treatment groups that was in the study, we can use facet_wrap() function to do so. faceting allows the user to split one plot into multiple subplots based on a variable in the dataset.  Note: There is also a facet_grid() function that can form a matrix of rows of columns of the panels. 
+
+
+```{r}
+pbc_clean<-pbc%>%
+  filter(!is.na(trt))%>%
+  mutate(trt=fct_recode(factor(trt),Dpen="1",placebo="2")) #dataset cleaning to remove na values
+ggplot(data=pbc_clean,aes(x=chol, fill=sex))+
+  geom_histogram(bins=40, position="stack", alpha=0.9)+ #creates a histogram
+  facet_wrap(~trt)+ # trt variable has treatment groups
+  labs(title="Histogram of cholesterol levels",x="cholesterol value mg/dl")+ #create axis labels
+  theme_classic()+
+   theme(plot.title = element_text(face="bold",size="14",hjust=0.5))+ #Bold and center the title
+  theme(axis.title.x=element_text(face="bold.italic"))+
+  theme(axis.title.y=element_text(face="bold.italic"))
+  
+```
+
+##### Figure 3
+
+
+
+Let's visualize the same information using a different type of plot. Figure 4 shows a boxplot of cholesterol data by treatment group.
+
+
+```{r}
+ggplot(data=pbc_clean)+
+  geom_boxplot(aes(x= trt, y=chol),fill=c("pink","lavender"))+
+  labs(title="Cholesterol levels in treatment groups",x="Treatment group",y="Cholesterol level mg/dl")+
+  theme_minimal()+
+    theme(plot.title = element_text(face="bold",size="14",hjust=0.5))+ #Bold and center the title
+  theme(axis.title.x=element_text(face="bold.italic"))+
+  theme(axis.title.y=element_text(face="bold.italic"))
+  
+```
+
+##### Figure 4
+
+
+geom_boxplot() creates a boxplot of the data. Notice how we can also customise the color of our plots by entering a vector of colors of our choice. Customizing our plots using these arguments can give us a better insight about our data. Compare figure 3 & 4 to figure 1. We have more information of the cholesterol data based on gender and treatment group from 3 & 4, compared to figure 1! We can also vividly see the ouliers in our dataset as well. Now let's look at the age distribution of the patients in our dataset.
+
+```{r}
+ggplot(data=pbc_clean,aes(x=age,y=id,col=trt))+
+  geom_point()+
+  labs(title="Age distribution of treatment groups",x="Age (years)",y="ID")+
+  theme_minimal()+
+    theme(plot.title = element_text(face="bold",size="14",hjust=0.5))+ #Bold and center the title
+  theme(axis.title.x=element_text(face="bold.italic"))+
+  theme(axis.title.y=element_text(face="bold.italic"))
+```
+
+##### Figure 5
+
+
+Figure 5 shows the scatterplot of the age ditribution of the patients from this dataset. geom_point() creates a scatterplot. We can see that the patients are equally distributed based on age in both the Dpen and placebo groups. 
+
+There are several other plots that you can generate using ggplot. If you are interested in knowing more about the different types of graphs than can be plotted using ggplot, click [here](https://rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf).
+

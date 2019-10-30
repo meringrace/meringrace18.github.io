@@ -1,0 +1,14 @@
+---
+title: "Merin Grace"
+---
+
+```{r, echo=FALSE,out.width="25%",fig.align='center'}
+knitr::include_graphics("Grace-Merin-meg4004.JPG")
+
+```
+
+
+### About this site
+
+I'm Merin Grace. I'm a Biostatistics and Data Science masters student at [Weill Cornell School of Medicine](https://weill.cornell.edu/). I graduated with a Bachelors of Engineering (B.E) degree in Biomedical Engineering from [City College of New York (CCNY)](https://www.ccny.cuny.edu/) in 2016. Since graduation, I've worked at a couple of medical device companies in both New york and New Jersey. I started my career working on neuromodulation devices as a Quality Engineer at [Soterix Medical Inc](https://soterixmedical.com/). A year later, I switched companies and started working at [Stryker Orthopedics](https://www.stryker.com/us/en/index.html) as a Sr.CAPA Analyst where I primarly focussed on divisionsal project management, specifically, process improvement and redesign projects. I switched roles at the same company over a year later and started working as a Sr. Engineer in Risk Monitoring. In this role, I worked with large data sets to generate Risk tables and perform Trend Analysis on specific product families to ensure compliance. Working in this role sparked my interest in learning more about data processing and statistics. Hence, I decided to attend grad school that focusses in this area.
+You can find my resume [here](MerinGrace_Resume10.27.pdf).

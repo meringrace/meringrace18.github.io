@@ -1,0 +1,22 @@
+name: "Merins-Website"
+output_dir: "."
+navbar:
+  title: "Merin's website"
+  right:
+    - icon: fa-envelope fa-lg
+      href: mailto:<meringrace995@gmail.com>
+    - icon: fa-github fa-lg
+      href: https://github.com/meringrace
+    - icon: fa-twitter fa-lg
+      href: https://twitter.com/merniegrace
+    - icon: fa-linkedin fa-lg
+      href: https://www.linkedin.com/in/merin-grace-94737a120/
+  left:
+    - text: "About"
+      href: index.html
+    - text: "Projects"
+      href: about.html
+
+output: 
+html_document:
+theme: paper
